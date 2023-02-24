@@ -1,0 +1,6 @@
+name: MCAdmin
+version: '${project.version}'
+main: me.humandavey.mcadmin.MCAdmin
+api-version: 1.19
+authors: [ humandavey ]
+description: A plugin used for managing your server through discord!
