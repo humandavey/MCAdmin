@@ -1,0 +1,15 @@
+#-----------------------#
+# MCAdmin by humandavey #
+#-----------------------#
+
+# Create a discord bot on the developer portal and place the token here
+bot-token: 'place token here'
+
+# Put the guild if of the guild used
+guild-id: 0
+
+# Put the channel id of a log channel here, if unwanted put -1
+log-channel-id: -1
+
+# Put the channel id of a chat channel here, used for discord-minecraft communication, if unwanted put -1
+chat-channel-id: -1

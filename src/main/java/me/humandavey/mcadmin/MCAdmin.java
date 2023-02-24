@@ -2,6 +2,7 @@ package me.humandavey.mcadmin;
 
 import me.humandavey.mcadmin.command.commands.ExecuteCommand;
 import me.humandavey.mcadmin.command.commands.PlayersCommand;
+import me.humandavey.mcadmin.listener.ChatListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -15,6 +16,8 @@ public final class MCAdmin extends JavaPlugin {
 	@Override
 	public void onEnable() {
 		instance = this;
+
+		getLogger().info("---------------------[MCAdmin]---------------------");
 		try {
 			jda = JDABuilder.createDefault("MTA3ODQ4OTk4NDEyMzgwOTgyMg.GgS-L9.AyuqLskVaGo3YWM6ztv3Y4BbErcsBihhKcEtRI")
 					.setActivity(Activity.watching("over your server..."))
@@ -23,11 +26,29 @@ public final class MCAdmin extends JavaPlugin {
 			jda.awaitReady();
 		} catch (InterruptedException e) {
 			getLogger().severe("There was an error loading the discord bot! Disabling MCAdmin...");
+			getLogger().info("---------------------[MCAdmin]---------------------");
+			getServer().getPluginManager().disablePlugin(this);
+			return;
+		}
+		getLogger().info("Sucessfully started discord bot!");
+
+		getConfig().options().copyDefaults();
+		saveDefaultConfig();
+		getLogger().info("Sucessfully loaded config!");
+
+		if (getConfig().getLong("guild-id") == -1) {
+			getLogger().severe("Invalid guild id! Please make sure it is up to date.");
+			getLogger().info("---------------------[MCAdmin]---------------------");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 
-		getLogger().info("Discord bot sucessfully started!");
+		if (getConfig().getLong("chat-channel-id") != -1) {
+			getServer().getPluginManager().registerEvents(new ChatListener(), this);
+		}
+		getLogger().info("Sucessfully registered events!");
+
+		getLogger().info("---------------------[MCAdmin]---------------------");
 	}
 
 	@Override
@@ -35,7 +56,7 @@ public final class MCAdmin extends JavaPlugin {
 		jda.shutdown();
 	}
 
-	public static JDA getJDA() {
+	public JDA getJDA() {
 		return jda;
 	}
 
