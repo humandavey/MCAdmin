@@ -1,10 +1,11 @@
 package me.humandavey.mcadmin;
 
 import me.humandavey.mcadmin.command.commands.ExecuteCommand;
+import me.humandavey.mcadmin.command.commands.MessageCommand;
 import me.humandavey.mcadmin.command.commands.PlayersCommand;
 import me.humandavey.mcadmin.config.Config;
 import me.humandavey.mcadmin.listener.discord.MessageListener;
-import me.humandavey.mcadmin.listener.mc.ChatListener;
+import me.humandavey.mcadmin.listener.minecraft.ChatListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -23,7 +24,7 @@ public final class MCAdmin extends JavaPlugin {
 		try {
 			jda = JDABuilder.createDefault("MTA3ODQ4OTk4NDEyMzgwOTgyMg.GgS-L9.AyuqLskVaGo3YWM6ztv3Y4BbErcsBihhKcEtRI")
 					.setActivity(Activity.watching("over your server..."))
-					.addEventListeners(new ExecuteCommand(), new PlayersCommand(), new MessageListener())
+					.addEventListeners(new ExecuteCommand(), new PlayersCommand(), new MessageCommand(), new MessageListener())
 					.build();
 			jda.awaitReady();
 		} catch (InterruptedException e) {

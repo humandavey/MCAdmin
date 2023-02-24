@@ -1,4 +1,4 @@
-package me.humandavey.mcadmin.listener.mc;
+package me.humandavey.mcadmin.listener.minecraft;
 
 import me.humandavey.mcadmin.MCAdmin;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
