@@ -2,7 +2,9 @@ package me.humandavey.mcadmin;
 
 import me.humandavey.mcadmin.command.commands.ExecuteCommand;
 import me.humandavey.mcadmin.command.commands.PlayersCommand;
-import me.humandavey.mcadmin.listener.ChatListener;
+import me.humandavey.mcadmin.config.Config;
+import me.humandavey.mcadmin.listener.discord.MessageListener;
+import me.humandavey.mcadmin.listener.mc.ChatListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -21,7 +23,7 @@ public final class MCAdmin extends JavaPlugin {
 		try {
 			jda = JDABuilder.createDefault("MTA3ODQ4OTk4NDEyMzgwOTgyMg.GgS-L9.AyuqLskVaGo3YWM6ztv3Y4BbErcsBihhKcEtRI")
 					.setActivity(Activity.watching("over your server..."))
-					.addEventListeners(new ExecuteCommand(), new PlayersCommand())
+					.addEventListeners(new ExecuteCommand(), new PlayersCommand(), new MessageListener())
 					.build();
 			jda.awaitReady();
 		} catch (InterruptedException e) {
@@ -36,14 +38,14 @@ public final class MCAdmin extends JavaPlugin {
 		saveDefaultConfig();
 		getLogger().info("Sucessfully loaded config!");
 
-		if (getConfig().getLong("guild-id") == -1) {
+		if (Config.isGuildValid()) {
 			getLogger().severe("Invalid guild id! Please make sure it is up to date.");
 			getLogger().info("---------------------[MCAdmin]---------------------");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
 
-		if (getConfig().getLong("chat-channel-id") != -1) {
+		if (Config.isChatChannelEnabled()) {
 			getServer().getPluginManager().registerEvents(new ChatListener(), this);
 		}
 		getLogger().info("Sucessfully registered events!");
