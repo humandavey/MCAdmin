@@ -1,6 +1,7 @@
 package me.humandavey.mcadmin.listener.minecraft;
 
 import me.humandavey.mcadmin.MCAdmin;
+import me.humandavey.mcadmin.config.Config;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -10,8 +11,7 @@ public class ChatListener implements Listener {
 
 	@EventHandler
 	public void onChat(AsyncPlayerChatEvent event) {
-		TextChannel c = MCAdmin.getInstance().getJDA().getGuildById(MCAdmin.getInstance().getConfig().getLong("guild-id"))
-				.getTextChannelById(MCAdmin.getInstance().getConfig().getLong("chat-channel-id"));
+		TextChannel c = Config.getChatChannel();
 
 		c.sendMessage(event.getPlayer().getName() + ": " + event.getMessage()).queue();
 	}

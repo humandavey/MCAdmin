@@ -6,6 +6,8 @@ import net.dv8tion.jda.api.events.interaction.command.SlashCommandInteractionEve
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
+import java.awt.*;
+
 public class PlayersCommand extends Command {
 
 	public PlayersCommand() {
@@ -14,7 +16,14 @@ public class PlayersCommand extends Command {
 
 	@Override
 	public void execute(SlashCommandInteractionEvent event) {
-		EmbedBuilder b = new EmbedBuilder().setTitle("Online Players (" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")");
+		if (Bukkit.getOnlinePlayers().size() == 0) {
+			event.reply("There are no players online!").queue();
+			return;
+		}
+
+		EmbedBuilder b = new EmbedBuilder()
+				.setTitle("Online Players (" + Bukkit.getOnlinePlayers().size() + "/" + Bukkit.getMaxPlayers() + ")")
+				.setColor(new Color(30, 150, 50));
 		for (Player player : Bukkit.getOnlinePlayers()) {
 			b.addField(player.getName(), "- " + player.getName(), false);
 		}

@@ -12,11 +12,11 @@ public class MessageListener extends ListenerAdapter {
 
 	@Override
 	public void onMessageReceived(@NotNull MessageReceivedEvent event) {
-		if (Config.getChatChannel() == event.getChannel().asTextChannel() && Config.isChatChannelEnabled()) {
+		if (event.getChannel().asTextChannel() == Config.getChatChannel()) {
 			new BukkitRunnable() {
 				@Override
 				public void run() {
-					Bukkit.broadcastMessage("<" + event.getMember().getUser().getName() + "> " + event.getMessage());
+					Bukkit.broadcastMessage("<" + event.getMember().getUser().getName() + "> " + event.getMessage().getContentDisplay());
 				}
 			}.runTaskLater(MCAdmin.getInstance(), 0L);
 		}

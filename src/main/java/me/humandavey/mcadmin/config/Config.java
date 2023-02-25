@@ -9,16 +9,20 @@ public class Config {
 
 	private static final FileConfiguration config = MCAdmin.getInstance().getConfig();
 
+	public static String getToken() {
+		return config.getString("bot-token");
+	}
+
 	public static Guild getGuild() {
 		return MCAdmin.getInstance().getJDA().getGuildById(config.getLong("guild-id"));
 	}
 
 	public static TextChannel getChatChannel() {
-		return getGuild().getTextChannelById(config.getLong("chat-channel-id"));
+		return MCAdmin.getInstance().getJDA().getTextChannelById(config.getLong("chat-channel-id"));
 	}
 
 	public static TextChannel getLogChannel() {
-		return getGuild().getTextChannelById(config.getLong("log-channel-id"));
+		return MCAdmin.getInstance().getJDA().getTextChannelById(config.getLong("log-channel-id"));
 	}
 
 	public static boolean isGuildValid() {

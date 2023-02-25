@@ -9,7 +9,10 @@ import me.humandavey.mcadmin.listener.minecraft.ChatListener;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
+import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.List;
 
 public final class MCAdmin extends JavaPlugin {
 
@@ -22,9 +25,10 @@ public final class MCAdmin extends JavaPlugin {
 
 		getLogger().info("---------------------[MCAdmin]---------------------");
 		try {
-			jda = JDABuilder.createDefault("MTA3ODQ4OTk4NDEyMzgwOTgyMg.GgS-L9.AyuqLskVaGo3YWM6ztv3Y4BbErcsBihhKcEtRI")
+			jda = JDABuilder.createDefault(Config.getToken())
 					.setActivity(Activity.watching("over your server..."))
 					.addEventListeners(new ExecuteCommand(), new PlayersCommand(), new MessageCommand(), new MessageListener())
+					.setEnabledIntents(List.of(GatewayIntent.values()))
 					.build();
 			jda.awaitReady();
 		} catch (InterruptedException e) {
@@ -39,12 +43,13 @@ public final class MCAdmin extends JavaPlugin {
 		saveDefaultConfig();
 		getLogger().info("Sucessfully loaded config!");
 
-		if (Config.isGuildValid()) {
+		if (!Config.isGuildValid()) {
 			getLogger().severe("Invalid guild id! Please make sure it is up to date.");
 			getLogger().info("---------------------[MCAdmin]---------------------");
 			getServer().getPluginManager().disablePlugin(this);
 			return;
 		}
+		getLogger().info("Logged in to: " + Config.getGuild().getName());
 
 		if (Config.isChatChannelEnabled()) {
 			getServer().getPluginManager().registerEvents(new ChatListener(), this);
